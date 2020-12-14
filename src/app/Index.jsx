@@ -17,6 +17,7 @@ function App() {
                     <Redirect from="/react-floop/:url*(/+)" to={pathname.slice(0, -1)} />
                     <Route exact path="/react-floop/" component={Home} />
                     <Route path="/react-floop/users" component={Users} />
+                    <Route path="/react-floop/surveys" component={Users} />
                     <Redirect from="*" to="/react-floop/" />
                 </Switch>
             </div>
