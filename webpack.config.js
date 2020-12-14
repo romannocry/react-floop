@@ -2,7 +2,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     module: {
         rules: [
             {
@@ -28,7 +28,7 @@ module.exports = {
     },
     output: {
         filename: 'bundle.js',
-        publicPath: '/react-floop/',
+        publicPath: '/',
         path: path.resolve(__dirname, 'docs'),
     },
     plugins: [new HtmlWebpackPlugin({
