@@ -11,7 +11,7 @@ import { configureFakeBackend } from './_helpers';
 configureFakeBackend();
 
 render(
-    <BrowserRouter>
+    <BrowserRouter basename="/react-floop">
         <App />
     </BrowserRouter>,
     document.getElementById('app')

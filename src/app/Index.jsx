@@ -7,18 +7,18 @@ import { Users } from '@/users';
 
 function App() {
     const { pathname } = useLocation();  
-
+    console.log(pathname)
     return (
         <div className="app-container bg-light">
             <Nav />
             <Alert />
             <div className="container pt-4 pb-4">
                 <Switch>
-                    <Redirect from="/react-floop/:url*(/+)" to={pathname.slice(0, -1)} />
-                    <Route exact path="/react-floop/" component={Home} />
-                    <Route path="/react-floop/users" component={Users} />
-                    <Route path="/react-floop/surveys" component={Users} />
-                    <Redirect from="*" to="/react-floop/" />
+                    <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
+                    <Route exact path="/" component={Home} />
+                    <Route path="/users" component={Users} />
+                    <Route path="/surveys" component={Users} />
+                    <Redirect from="*" to="/" />
                 </Switch>
             </div>
         </div>
