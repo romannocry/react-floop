@@ -5,8 +5,8 @@ function Nav() {
     return (
         <nav className="navbar navbar-expand navbar-dark bg-dark">
             <div className="navbar-nav">
-                <NavLink exact to="/" className="nav-item nav-link">Home</NavLink>
-                <NavLink to="/users" className="nav-item nav-link">Users</NavLink>
+                <NavLink exact to="/react-floop/" className="nav-item nav-link">Home</NavLink>
+                <NavLink to="/react-floop/users" className="nav-item nav-link">Users</NavLink>
             </div>
         </nav>
     );

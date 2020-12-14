@@ -14,10 +14,10 @@ function App() {
             <Alert />
             <div className="container pt-4 pb-4">
                 <Switch>
-                    <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
-                    <Route exact path="/" component={Home} />
-                    <Route path="/users" component={Users} />
-                    <Redirect from="*" to="/" />
+                    <Redirect from="/react-floop/:url*(/+)" to={pathname.slice(0, -1)} />
+                    <Route exact path="/react-floop/" component={Home} />
+                    <Route path="/react-floop/users" component={Users} />
+                    <Redirect from="*" to="/react-floop/" />
                 </Switch>
             </div>
         </div>
