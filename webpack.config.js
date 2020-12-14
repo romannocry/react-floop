@@ -29,7 +29,7 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         //publicPath: '/react-floop/',
-        //path: path.resolve(__dirname, 'docs'),
+        path: path.resolve(__dirname, 'docs'),
     },
     plugins: [new HtmlWebpackPlugin({
         template: './src/index.html'
