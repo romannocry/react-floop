@@ -9,7 +9,7 @@ import './styles.less';
 import { configureFakeBackend } from './_helpers';
 configureFakeBackend();
 const { pathname } = useLocation();  
-
+console.log(pathname)
 render(
     <BrowserRouter basename={pathname}>
         <App />
