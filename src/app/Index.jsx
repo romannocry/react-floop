@@ -8,6 +8,7 @@ import { Users } from '@/users';
 function App() {
     const { pathname } = useLocation();  
     console.log(pathname)
+    console.log(process.env)
     return (
         <div className="app-container bg-light">
             <Nav />
@@ -16,7 +17,7 @@ function App() {
                 <Switch>
                     <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
                     <Route exact path="/" component={Home} />
-                    <Route path="/users" component={Users} />
+                    <Route path='/users' component={Users} />
                     <Route path="/surveys" component={Users} />
                     <Redirect from="*" to="/" />
                 </Switch>
