@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter , useLocation} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { render } from 'react-dom';
+
 import { App } from './app';
 
 import './styles.less';
@@ -8,10 +9,9 @@ import './styles.less';
 // setup fake backend
 import { configureFakeBackend } from './_helpers';
 configureFakeBackend();
-const { pathname } = useLocation();  
-console.log(pathname)
+
 render(
-    <BrowserRouter basename={pathname}>
+    <BrowserRouter basename="/react-floop">
         <App />
     </BrowserRouter>,
     document.getElementById('app')
