@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter, BrowserRouter } from 'react-router-dom';
 import { render } from 'react-dom';
 
 import { App } from './app';
@@ -11,8 +11,8 @@ import { configureFakeBackend } from './_helpers';
 configureFakeBackend();
 
 render(
-    <BrowserRouter basename="/react-floop">
+    <HashRouter basename="">
         <App />
-    </BrowserRouter>,
+    </HashRouter>,
     document.getElementById('app')
 );
