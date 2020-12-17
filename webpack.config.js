@@ -28,7 +28,7 @@ module.exports = {
     },
     output: {
         filename: 'bundle.js',
-        publicPath: '/',
+        publicPath: '/react-router/',
         path: path.resolve(__dirname, 'docs'),
     },
     plugins: [new HtmlWebpackPlugin({
