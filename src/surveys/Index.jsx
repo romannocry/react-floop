@@ -2,18 +2,16 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import { List } from './List';
-import { AddEdit } from './AddEdit';
+import { Receive } from './Receive';
 
-function Users({ match }) {
+function Surveys({ match }) {
     const { path } = match;
     
     return (
         <Switch>
-            <Route exact path={path} component={List} />
-            <Route path={`${path}/add`} component={AddEdit} />
-            <Route path={`${path}/edit/:id`} component={AddEdit} />
+            <Route path={`${path}/receive/:hash`} component={Receive} />
         </Switch>
     );
 }
 
-export { Users };
+export { Surveys };

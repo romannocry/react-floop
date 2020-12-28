@@ -8,11 +8,14 @@
     },
     "dependencies": {
         "@hookform/resolvers": "^1.0.0",
+        "@pathofdev/react-tag-input": "^1.0.7",
         "prop-types": "^15.7.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-hook-form": "^6.9.2",
         "react-router-dom": "^5.1.2",
+        "react-tagging-input": "^2.1.2",
+        "reactjs-tag-input": "^2.0.15",
         "rxjs": "^6.5.5",
         "yup": "^0.29.3"
     },

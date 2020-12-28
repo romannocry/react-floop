@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
+import { TagInput } from 'reactjs-tag-input'
+import ReactTagInput from "@pathofdev/react-tag-input";
+//import "@pathofdev/react-tag-input/build/index.css";
+
 import * as Yup from 'yup';
 
 import { userService, alertService } from '@/_services';
@@ -55,7 +59,10 @@ function AddEdit({ history, match }) {
             .catch(alertService.error);
     }
 
+    const [questions, setQuestions] = useState({});
     const [user, setUser] = useState({});
+    const [tags, setTags] = useState(["example tag"])
+
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
@@ -93,6 +100,10 @@ function AddEdit({ history, match }) {
             }
             <div className="form-row">
                 <div className="form-group col">
+                <ReactTagInput 
+                tags={tags} 
+                onChange={(newTags) => setTags(newTags)}
+                />
                     <label>
                         Password
                         {!isAddMode &&
@@ -111,6 +122,7 @@ function AddEdit({ history, match }) {
                     <div className="invalid-feedback">{errors.confirmPassword?.message}</div>
                 </div>
             </div>
+     
             <div className="form-group">
                 <button type="submit" disabled={formState.isSubmitting} className="btn btn-primary">
                     {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}

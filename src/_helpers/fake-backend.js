@@ -12,6 +12,25 @@ export function configureFakeBackend() {
         password: 'joe123'
     }];
 
+    // array in local storage for user records
+    let surveys = JSON.parse(localStorage.getItem('users')) || [{
+        survey: "Survey Name", 
+        storage: "lambdaUrl", 
+        surveyCreator: "", 
+        auth: false,
+        closingParams: {timer: 5, message: "Thank you for your feedback"},
+        data: [
+            {
+                question: "X??", 
+                answers: ["X2"],
+                hashes: [],
+                links: [],
+                urlParams:[],
+                matrix: []
+            }
+        ]
+    }]
+
     // monkey patch fetch to setup fake backend
     let realFetch = window.fetch;
     window.fetch = function (url, opts) {
