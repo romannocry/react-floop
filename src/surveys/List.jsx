@@ -2,14 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { userService } from '@/_services';
+import { surveyService } from '../_services';
 
 function List({ match }) {
     const { path } = match;
-    const [users, setUsers] = useState(null);
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        userService.getAll().then(x => setUsers(x));
+        surveyService.getAll().then(x => setUsers(x));
     }, []);
+
+    useEffect(() => {
+        console.log(users)
+    }, [users]);
 
     function deleteUser(id) {
         setUsers(users.map(x => {
@@ -23,23 +28,25 @@ function List({ match }) {
 
     return (
         <div>
-            <h1>Users</h1>
+            <h1>⚡Surveys</h1>
+            
             <Link to={`${path}/add`} className="btn btn-sm btn-success mb-2">Add User</Link>
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th style={{ width: '30%' }}>Name</th>
-                        <th style={{ width: '30%' }}>Email</th>
-                        <th style={{ width: '30%' }}>Role</th>
-                        <th style={{ width: '10%' }}></th>
+                    {users.length>0 && Object.keys(users[0]).map((key, index) =>
+                        <React.Fragment key={index}>
+                        <th style={{ width: key/100 }}>{key}</th>
+                        </React.Fragment>
+                    )}
                     </tr>
                 </thead>
                 <tbody>
                     {users && users.map(user =>
                         <tr key={user.id}>
                             <td>{user.title} {user.firstName} {user.lastName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
+                            <td>{user.date}</td>
+                            <td>{user.name}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
                                 <Link to={`${path}/edit/${user.id}`} className="btn btn-sm btn-primary mr-1">Edit</Link>
                                 <button onClick={() => deleteUser(user.id)} className="btn btn-sm btn-danger btn-delete-user" disabled={user.isDeleting}>

@@ -36,9 +36,9 @@ function TestFunc({ history, match }) {
                 <li>Step 3 checking the lambda dataset is accessible, if so, gray out and add a first question</li>
                 
                     
-                    <>
+                    
                      <TestQuestion match={match}/>
-                    </>
+                    
     
             <p>
                 The question array has {questionCount} elements !

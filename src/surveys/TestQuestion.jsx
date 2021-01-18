@@ -5,6 +5,8 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TagInput } from 'reactjs-tag-input'
 import ReactTagInput from "@pathofdev/react-tag-input";
+import { surveyService, alertService } from '@/_services';
+
 import './Test.css'
 
 
@@ -15,14 +17,43 @@ function TestQuestion({match}) {
 
     const [questionLabel, setQuestionLabel] = useState([{}]);
     const [questionAnswers, setQuestionAnswers] = useState(["example tag"]);
-    const [survey, setSurvey] = useState({name:'Survey Name',datasourceUri:'lambdaUrl',surveyCreator:'',auth:false, closingParams:{timer:5,message:'Thank you for your feedback'},data:[{'question':'X?',answers:['X1','X2','X3','X4','X5'],links:['LX1','LX2','LX3','LX4','LX5'],urlParams:['PX1','PX2','PX3','PX4','PX5'],hashes:['HX1','HX2','HX3','HX4','HX5'],matrix:[]}]});
+    const [survey, setSurvey] = useState({name:'Survey Name',datasourceUri:'lambdaUrl',surveyCreator:'',auth:false, closingParams:{timer:0,message:'Thank you for your feedback'},data:[{'question':'X?',answers:['X1','X2','X3','X4','X5'],links:['LX1','LX2','LX3','LX4','LX5'],urlParams:['PX1','PX2','PX3','PX4','PX5'],hashes:['HX1','HX2','HX3','HX4','HX5'],matrix:[]}]});
     const [surveyElement,setSurveyElement] =useState();
     
-    const { control, register, handleSubmit, errors } = useForm();
-    
-    const onSubmit = data => console.log(data);
+    const { control, register, handleSubmit, errors, setValue } = useForm();
+    const { id } = match.params;
+    const isAddMode = !id;
 
-    console.log(match)
+    const onSubmit = data => {
+        //alertService.success('Survey added', { keepAfterRouteChange: true });
+        createSurvey(survey)
+        console.log(data);
+
+    }
+    /*function onSubmit(data) {
+        return isAddMode
+            ? createUser(data)
+            : updateUser(id, data);
+    }*/
+
+    function createSurvey(data) {
+        return surveyService.create(data)
+            .then(() => {
+                alertService.success('User added', { keepAfterRouteChange: true });
+                history.push('.');
+            })
+            .catch(alertService.error);
+    }
+
+    function updateSurvey(id, data) {
+        return userService.update(id, data)
+            .then(() => {
+                alertService.success('User updated', { keepAfterRouteChange: true });
+                history.push('..');
+            })
+            .catch(alertService.error);
+    }
+
     const updateSurveyName = (e) => {
         let s = {...survey}
         s.name = e.target.value
@@ -48,6 +79,7 @@ function TestQuestion({match}) {
         s.data[index].urlParams = s.data[index].answers.map(answer => ('survey='+s.name+'&storage='+s.datasourceUri+'&question='+s.data[index].question+'&answer='+answer));
         s.data[index].hashes = s.data[index].answers.map(answer => btoa(JSON.stringify({"survey":s.name,"storage":s.datasourceUri,"surveyCreator":s.surveyCreator,"auth":s.auth, "closingParams":s.closingParams, "data":[{"question":s.data[index].question,"answer":answer}]})).replace(/\//g, '%2F'));
         setSurvey(s)
+        setValue('reactTagInput'+index,answers)
         console.log("updateAnswers update")
         console.log(s)
         //updateMyArray( arr => [...arr, `${arr.length}`]);
@@ -75,14 +107,16 @@ function TestQuestion({match}) {
     //<textarea rows='8'  class="textarea is-primary" value={surveyElement.hashes.join("\n")} placeholder={surveyElement.hashes.join("\n")}></textarea>
 
     return (
-        <div>
+        <div>                 
+            <form onSubmit={handleSubmit(onSubmit)}>
+
             <div className="field has-addons">
                 
                 <div className="control is-expanded">
                     <div className="control is-fullwidth">
 
                     <div className="control has-icons-left has-icons-right">
-                    <input className="input is-success" type="text" defaultValue={survey.datasourceUri} placeholder={survey.datasourceUri}></input>
+                    <input className="input is-success" type="text" name="survey_datamart" ref={register({ required: true })} defaultValue={survey.datasourceUri} placeholder={survey.datasourceUri}></input>
                     <span className="icon is-small is-left">
                     <i className="fal fa-lambda"></i>
                     </span>
@@ -104,7 +138,7 @@ function TestQuestion({match}) {
                     <div className="control is-fullwidth">
 
                     <div className="control has-icons-left">
-                    <input className="input is-success" type="text" defaultValue="Survey Name" placeholder={survey.name} onChange={e => updateSurveyName(e)}></input>
+                    <input className="input is-success" type="text" name="survey_label" defaultValue="Survey Name" ref={register({ required: true })} placeholder={survey.name} onChange={e => updateSurveyName(e)}></input>
                     <span className="icon is-small is-left">
                     <i className="fal fa-lambda"></i>
                     </span>
@@ -112,11 +146,9 @@ function TestQuestion({match}) {
                     </div>
                 </div>
             </div>
-                 
-            <form onSubmit={handleSubmit(onSubmit)}>
 
             {survey.data.map((surveyElement, index) => (
-                <>
+                <div key={index}>
                         <div className="field has-addons" key={index}>
                             <div className="control is-expanded">
                             <p className="control has-icons-left">
@@ -132,13 +164,13 @@ function TestQuestion({match}) {
                                 <Controller
                                     name={'reactTagInput'+index}
                                     control={control}
-                                    defaultValue=""
+                                    defaultValue={surveyElement.answers}
                                     //rules={{ required: true }}
-                                    render={props =>
+                                    render={({ onChange, value }) =>
                                     <ReactTagInput
                                         tags={surveyElement.answers} 
-                                        onChange={(newTags) => updateAnswers(index,newTags)}
-                                        //onChange={(answers) => updateAnswers(index,answers)}
+                                        //onChange={onChange => setValue('reactTagInput'+index,onChange)}
+                                        onChange={(answers) => updateAnswers(index,answers)}
                                     />
                                     }
                                 />
@@ -168,7 +200,7 @@ function TestQuestion({match}) {
                             <Tab key={'tab_'+index} surveyElement={surveyElement} survey={survey}/>
 
                         </div>
-                  </>
+                  </div>
                     
                 ))}
                 <div className="control">  

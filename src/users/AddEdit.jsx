@@ -41,6 +41,7 @@ function AddEdit({ history, match }) {
     });
 
     function onSubmit(data) {
+        console.log(data)
         return isAddMode
             ? createUser(data)
             : updateUser(id, data);

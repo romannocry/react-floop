@@ -13,8 +13,9 @@ export function configureFakeBackend() {
     }];
 
     // array in local storage for user records
-    let surveys = JSON.parse(localStorage.getItem('users')) || [{
-        survey: "Survey Name", 
+    let surveys = JSON.parse(localStorage.getItem('surveys')) || [{
+        id:1,
+        name: "Pre-built", 
         storage: "lambdaUrl", 
         surveyCreator: "", 
         auth: false,
@@ -43,10 +44,14 @@ export function configureFakeBackend() {
                 switch (true) {
                     case url.endsWith('/users') && method === 'GET':
                         return getUsers();
+                    case url.endsWith('/surveys') && method === 'GET':
+                        return getSurveys();
                     case url.match(/\/users\/\d+$/) && method === 'GET':
                         return getUserById();
                     case url.endsWith('/users') && method === 'POST':
                         return createUser();
+                    case url.endsWith('/surveys') && method === 'POST':
+                        return createSurvey();
                     case url.match(/\/users\/\d+$/) && method === 'PUT':
                         return updateUser();
                     case url.match(/\/users\/\d+$/) && method === 'DELETE':
@@ -63,6 +68,10 @@ export function configureFakeBackend() {
 
             function getUsers() {
                 return ok(users);
+            }
+
+            function getSurveys() {
+                return ok(surveys);
             }
 
             function getUserById() {
@@ -86,7 +95,22 @@ export function configureFakeBackend() {
 
                 return ok();
             }
-    
+
+            function createSurvey() {
+                const survey = body();
+
+
+                // assign user id and a few other properties then save
+                survey.id = newUserId();
+                survey.dateCreated = new Date().toISOString();
+               // delete user.confirmPassword;
+                surveys.push(survey);
+                console.log(survey)
+                localStorage.setItem('surveys', JSON.stringify(surveys));
+
+                return ok();
+            }
+
             function updateUser() {
                 let params = body();
                 let user = users.find(x => x.id === idFromUrl());

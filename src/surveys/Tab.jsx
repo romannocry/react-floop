@@ -62,7 +62,7 @@ function Tab({ surveyElement, survey }) {
             <table className="table"> 
             <tbody>
             {surveyElement.hashes.map((hashElement, index) => (
-                <tr>
+                <tr key={index}>
                     <td>
                     <a href={'react-floop/#/surveys/receive/'+hashElement} title="Mouseover Description">{surveyElement.answers[index]}</a>
                     </td>
@@ -79,7 +79,7 @@ function Tab({ surveyElement, survey }) {
             <tr>
             {surveyElement.hashes.map((hashElement, index) => (
                 
-                    <td>
+                    <td key={index}>
                     <p><a href={'react-floop/#/surveys/receive/'+hashElement} title="Mouseover Description">{surveyElement.answers[index]}</a></p>
                     </td>
             ))}
@@ -95,7 +95,7 @@ function Tab({ surveyElement, survey }) {
                 <select defaultValue={'select'} onChange={e => generateMatrix(e)}>
                     <option value="select" disabled>Select dropdown</option>
                     {survey.data.map((question, index) => (
-                    <option value={index}>{question.question}</option>
+                    <option key={index} value={index}>{question.question}</option>
                     ))}
                 </select>
                 </div>
@@ -113,28 +113,26 @@ function Tab({ surveyElement, survey }) {
                 {typeof selectedQuestion.answers !== 'undefined' &&            
                     <>
                     {selectedQuestion.answers.map((answer, index) => (
-                        <td>{answer}</td>
+                        <td key={index}>{answer}</td>
                     ))}
                     </>
                 }
                 </tr>
                 {surveyElement.matrix.map((dimension, index1) => (
-                <>               
+                <React.Fragment key={index1}>             
                 <tr> 
                 {index1 == 0 &&    
-                    <td rowSpan={surveyElement.answers.length}>{surveyElement.question}</td>
+                    <td key={index1} rowSpan={surveyElement.answers.length}>{surveyElement.question}</td>
                 }
                 <td>{surveyElement.answers[index1]}</td>
 
                     {dimension.map((hash, index2) => (
-                    <>
-                    <td>
+                    <td key={index2}>
                     <p><a href={'react-floop/#/surveys/receive/'+hash} title="Mouseover Description">{index1+'+'+index2}</a></p>
                     </td>
-                    </>
                     ))}
                 </tr>
-                </>
+                </React.Fragment>
                 ))}
                 </tbody>
                 </table>
